@@ -34,7 +34,7 @@ namespace phoneTool
            // }
             
             txtSearch.AutoSize = false;
-            txtSearch.Size = new System.Drawing.Size(500, 30);
+            txtSearch.Size = new System.Drawing.Size(500, 26);
             txtSearch.Text.Trim();
             
 
