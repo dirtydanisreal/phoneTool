@@ -121,6 +121,8 @@ namespace phoneTool
                 Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool"));
 
                 WriteResourceToFile("phoneTool.numberData.csv", filePath);
+
+                checkUpdate();
             }
             else
             { 
