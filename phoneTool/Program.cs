@@ -159,6 +159,7 @@ namespace phoneTool
             {
 
                 File.Replace(tempPath, filePath, "numberData.bak.csv");
+                File.Delete("numberData.bak.csv");
             }
             else
             {
