@@ -112,6 +112,8 @@ namespace phoneTool
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.dataGridView1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "Phone Number Tool";

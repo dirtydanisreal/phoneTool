@@ -180,6 +180,7 @@ namespace phoneTool
             txtSearch.AutoCompleteSource = AutoCompleteSource.CustomSource;
             txtSearch.AutoCompleteCustomSource = word_source;
             txtSearch.AutoCompleteMode = AutoCompleteMode.Suggest;
+            
 
 
         }
