@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Data;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace phoneTool
 {
@@ -21,6 +22,10 @@ namespace phoneTool
 
             return result;
         }
+
+        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool DeleteFile(string name);
 
 
         private static DataTable FormDataTable(string[] LineArray, char delimiter)

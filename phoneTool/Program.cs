@@ -27,6 +27,11 @@ namespace phoneTool
         [STAThread]
         static void Main()
         {
+            try
+            {
+                Helper.DeleteFile(Application.ExecutablePath + ":Zone.Identifier");
+            }
+            catch { }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //FileUnblocker fub = new FileUnblocker();
