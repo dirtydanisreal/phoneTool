@@ -14,13 +14,13 @@ namespace phoneTool
     {
         public static DataTable DataTableFromTextFile(string location, char delimiter = ',')
         {
-            DataTable result;
+                DataTable result;
 
-            string[] LineArray = File.ReadAllLines(location);
+                string[] LineArray = File.ReadAllLines(location);
+                
+                result = FormDataTable(LineArray, delimiter);
 
-            result = FormDataTable(LineArray, delimiter);
-
-            return result;
+                return result; 
         }
 
         [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
@@ -30,7 +30,7 @@ namespace phoneTool
 
         private static DataTable FormDataTable(string[] LineArray, char delimiter)
         {
-            bool IsHeaderSet = false;
+           
 
             DataTable dt = new DataTable();
 
@@ -71,9 +71,25 @@ namespace phoneTool
                 dt.Columns.Add(dc);
             }
         }
-        }
 
-    
+        public static async Task AppendLineToFileAsync( string path, string line)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentOutOfRangeException(nameof(path), path, "Was null or whitepsace.");
+
+            if (!File.Exists(path))
+                throw new FileNotFoundException("File not found.", nameof(path));
+
+            using (var file = File.Open(path, FileMode.Append, FileAccess.Write))
+            using (var writer = new StreamWriter(file))
+            {
+                await writer.WriteLineAsync(line);
+                await writer.FlushAsync();
+            }
+        }
+    }
+
+        
 
 
 }

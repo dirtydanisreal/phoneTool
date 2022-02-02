@@ -16,6 +16,7 @@ using System.Security.Permissions;
 using System.Security;
 using Microsoft.Win32;
 using System.Security.Cryptography;
+using AutoUpdate;
 
 namespace phoneTool
 {
@@ -25,13 +26,16 @@ namespace phoneTool
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             try
             {
                 Helper.DeleteFile(Application.ExecutablePath + ":Zone.Identifier");
             }
             catch { }
+            Updater.GitHubRepo = "/dirtydanisreal/phoneTool";
+            if (Updater.AutoUpdate(args))
+                return;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //FileUnblocker fub = new FileUnblocker();
@@ -41,11 +45,13 @@ namespace phoneTool
             //    Console.WriteLine($"Filename - {s} :: Unblocked -> {fub.Unblock(s)}");
             //}
             
-            dirCheck();
+            //dirCheck();
             string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool");
             string filePath = Path.Combine(dataPath, "numberData.csv");
+            string networkPath = "\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
+            string netPath = ConvertUNCPathToPhysicalPath("\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData");
             checkUpdate();
-            MonitorDirectory(dataPath);
+           // MonitorDirectory(dataPath);
             Application.Run(new Form1());
             
             
@@ -74,7 +80,9 @@ namespace phoneTool
 
             fileSystemWatcher.IncludeSubdirectories = true;
 
+            fileSystemWatcher.Filter = "*.txt";
             
+            fileSystemWatcher.NotifyFilter = NotifyFilters.LastWrite;
         }
 
         
@@ -118,6 +126,7 @@ namespace phoneTool
             string roamingAppData = Environment.ExpandEnvironmentVariables("%appdata%");
             string userName = Environment.ExpandEnvironmentVariables("%username%");
             string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool");
+            string netPath = ConvertUNCPathToPhysicalPath("\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData");
             string filePath = Path.Combine(dataPath, "numberData.csv");
             WebClient Client = new WebClient();
 
@@ -156,22 +165,24 @@ namespace phoneTool
             string temp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool\\temp");
             string tempPath = Path.Combine(temp, "numberData.csv");
             string filePath = Path.Combine(dataPath, "numberData.csv");
-            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "AppData\\Local\\phoneTool\\temp"))
-            {
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool\\temp"));
-            }
+            string networkPath = "\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
+            string fileNetPath = Path.Combine(networkPath, "numberData.csv");
+            //if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "AppData\\Local\\phoneTool\\temp"))
+            //{
+            //    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool\\temp"));
+            //}
             
-            Client.DownloadFile("https://raw.githubusercontent.com/dirtydanisreal/numberData/master/numberData.csv", tempPath);
-            if(CompareFileHashes(filePath, tempPath)  == false)
-            {
+            //Client.DownloadFile("https://raw.githubusercontent.com/dirtydanisreal/numberData/master/numberData.csv", tempPath);
+            //if(CompareFileHashes(filePath, tempPath) == false)
+            //{
 
-                File.Replace(tempPath, filePath, "numberData.bak.csv");
-                File.Delete("numberData.bak.csv");
-            }
-            else
-            {
+            //    File.Replace(tempPath, filePath, "numberData.bak.csv");
+            //    File.Delete("numberData.bak.csv");
+            //}
+            //else
+            //{
 
-            }
+            //}
 
              
         }
@@ -232,6 +243,70 @@ namespace phoneTool
             }   
             
             return fileSizeEqual;
+        }
+
+        public static bool IsUNCPath(
+        string path)
+        {
+            try { return (new Uri(path)).IsUnc; }
+            catch { return false; }
+        }
+
+        public static Dictionary<string, string> GetShareUNCPathToPhysicalPathMappings()
+        {
+            // Create a blank dictionary to hold the mappings.
+            Dictionary<string, string> mappings = new Dictionary<string, string>();
+
+            // Get this PC's host name.
+            string hostName = Dns.GetHostName();
+
+            // Get the registry key that contains the share information.
+            using (RegistryKey shareKey = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\LanmanServer\Shares"))
+            {
+                // If the registry key isn't null...
+                if (shareKey != null)
+                {
+                    // Get the share names and go through each one...
+                    string[] shareNames = shareKey.GetValueNames();
+                    foreach (string shareName in shareNames)
+                    {
+                        // Get the properties for the share and go through each one.
+                        string[] shareProperties = (string[])shareKey.GetValue(shareName);
+                        foreach (string shareProperty in shareProperties)
+                        {
+                            // Find the path property for the share and create the mapping.
+                            if (shareProperty.StartsWith("Path="))
+                            {
+                                mappings[string.Format(@"\\{0}\{1}\", hostName, shareName)] = shareProperty.Remove(0, 5) + @"\";
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Return the mappings.
+            return mappings;
+        }
+
+        public static string ConvertUNCPathToPhysicalPath(
+       string uncPath)
+        {
+            // If the supplied path isn't a UNC path, return null.
+            if (!IsUNCPath(uncPath)) return null;
+
+            // Attempt to find the physical path that the UNC path corresponds to.
+            Dictionary<string, string> mappings = GetShareUNCPathToPhysicalPathMappings();
+            foreach (string shareUNCPath in mappings.Keys)
+            {
+                if (uncPath.StartsWith(shareUNCPath))
+                {
+                    return mappings[shareUNCPath] + uncPath.Remove(0, shareUNCPath.Length);
+                }
+            }
+
+            // If no mapping could be found, return null.
+            return null;
         }
 
     }
