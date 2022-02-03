@@ -33,7 +33,7 @@ namespace phoneTool
             string netPath = ConvertUNCPathToPhysicalPath(networkPath);
             string fileNetPath = Path.Combine(networkPath, "numberData.txt");
             string appPath = Application.StartupPath;
-            string appTxt = Path.Combine(networkPath, "numberData.txt");
+            string appTxt = Path.Combine(dataPath, "numberData.csv");
 
             //dataGridView1.DataSource = Helper.DataTableFromTextFile(fileNetPath);
             dataGridView1.DataSource = Helper.DataTableFromTextFile(appTxt);
