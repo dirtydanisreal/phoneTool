@@ -45,13 +45,13 @@ namespace phoneTool
             //    Console.WriteLine($"Filename - {s} :: Unblocked -> {fub.Unblock(s)}");
             //}
             
-            //dirCheck();
+            dirCheck();
             string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool");
             string filePath = Path.Combine(dataPath, "numberData.csv");
             string networkPath = "\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
             string netPath = ConvertUNCPathToPhysicalPath("\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData");
             checkUpdate();
-           // MonitorDirectory(dataPath);
+            MonitorDirectory(dataPath);
             Application.Run(new Form1());
             
             
@@ -167,22 +167,22 @@ namespace phoneTool
             string filePath = Path.Combine(dataPath, "numberData.csv");
             string networkPath = "\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
             string fileNetPath = Path.Combine(networkPath, "numberData.csv");
-            //if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "AppData\\Local\\phoneTool\\temp"))
-            //{
-            //    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool\\temp"));
-            //}
+            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "AppData\\Local\\phoneTool\\temp"))
+            {
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool\\temp"));
+            }
             
-            //Client.DownloadFile("https://raw.githubusercontent.com/dirtydanisreal/numberData/master/numberData.csv", tempPath);
-            //if(CompareFileHashes(filePath, tempPath) == false)
-            //{
+            Client.DownloadFile("https://raw.githubusercontent.com/dirtydanisreal/numberData/master/numberData.csv", tempPath);
+            if(CompareFileHashes(filePath, tempPath) == false)
+            {
 
-            //    File.Replace(tempPath, filePath, "numberData.bak.csv");
-            //    File.Delete("numberData.bak.csv");
-            //}
-            //else
-            //{
+                File.Replace(tempPath, filePath, "numberData.bak.csv");
+                File.Delete("numberData.bak.csv");
+            }
+            else
+            {
 
-            //}
+            }
 
              
         }
