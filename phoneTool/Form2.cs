@@ -22,7 +22,20 @@ namespace phoneTool
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string newLine = textBox1.Text + "," + textBox2.Text + "," + textBox3.Text + "," + textBox4.Text + "," + textBox5.Text + "," + textBox6.Text;
+            //string name  = format trim ( textBox1.Text)
+            //string phone = cccc - c (textBox2.Text)
+            string name = textBox1.Text;
+            string phone = textBox2.Text;
+            string alt = textBox3.Text;
+            string pager = textBox4.Text;
+            string fax = textBox5.Text;
+            string tube = textBox6.Text;
+            if (phone.Length < 5)
+            {
+
+            }
+
+            string newLine = name.Trim() + "," + phone.Trim() + "," +alt.Trim() + "," + pager.Trim() + "," + fax.Trim() + "," + tube.Trim();
             string path = @"D:\GitHub\phoneTool\phoneTool\bin\Debug\numberData.txt";
             string addLine = newLine + Environment.NewLine;
             File.AppendAllText(path, addLine);
