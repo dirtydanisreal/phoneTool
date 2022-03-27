@@ -7,10 +7,12 @@ using System.IO;
 using System.Data;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.VisualBasic;
+using System.Globalization;
 
 namespace phoneTool
 {
-    public class Helper
+    public static class Helper
     {
         public static DataTable DataTableFromTextFile(string location, char delimiter = ',')
         {
@@ -87,9 +89,75 @@ namespace phoneTool
                 await writer.FlushAsync();
             }
         }
+
+        public static void formatNumber(string Number)
+        {
+            bool result = IsInteger(Number);
+            int pLength = Number.Length;
+
+            
+
+            Number.Trim();
+            Number.Replace(" ", "");
+            if ((pLength < 5) && (result == true))
+            {
+                int index1 = Number.IndexOf("-");
+                if (Number.Contains("-") && (index1 != 2))
+                {
+                    Number.Replace("-", "");
+                    Number.Insert(2, "-");
+                }
+            }
+            else if ((pLength > 5) && (pLength <= 7) && (result == true))
+            {
+                Number.Replace("-", "");
+                Number.Insert(4, "-");
+            }
+            else if ((pLength > 7) && (result == true))
+            {
+                Number.Replace("(", "");
+                Number.Replace(")", "");
+                Number.Replace("-", "");
+
+                Number.Insert(7, "-");
+                Number.Insert(4, ")-");
+                Number.Insert(1, "(");
+
+            }
+
+            
+        }
+
+        public static bool IsInteger(this string val)
+        {
+            int retNum;
+
+            bool isNum = Int32.TryParse(val, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out retNum);
+            return isNum;
+        }
+
+        public static string PhoneNumber(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+            value = new System.Text.RegularExpressions.Regex(@"\D")
+                .Replace(value, string.Empty);
+            value = value.TrimStart('0');
+            if (value.Length == 5)
+                return Convert.ToInt64(value).ToString("# - ####");
+            if (value.Length < 5 || value.Length <= 7)
+                return Convert.ToInt64(value).ToString("###-####");
+            if (value.Length > 7)
+                return Convert.ToInt64(value).ToString("(###) ###-####");
+            if (value.Length == 3)
+                return Convert.ToInt64(value).ToString("###");
+            
+            return value;
+        }
+
+
     }
 
-        
+       
 
 
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Microsoft.VisualBasic;
 
 namespace phoneTool
 {
@@ -24,25 +25,39 @@ namespace phoneTool
         {
             //string name  = format trim ( textBox1.Text)
             //string phone = cccc - c (textBox2.Text)
+
+            Form f = Application.OpenForms[0];
             string name = textBox1.Text;
             string phone = textBox2.Text;
             string alt = textBox3.Text;
             string pager = textBox4.Text;
             string fax = textBox5.Text;
             string tube = textBox6.Text;
-            if (phone.Length < 5)
-            {
-
-            }
-
-            string newLine = name.Trim() + "," + phone.Trim() + "," +alt.Trim() + "," + pager.Trim() + "," + fax.Trim() + "," + tube.Trim();
-            string path = @"D:\GitHub\phoneTool\phoneTool\bin\Debug\numberData.txt";
-            string addLine = newLine + Environment.NewLine;
-            File.AppendAllText(path, addLine);
 
             
 
+            
+            Helper.PhoneNumber(phone);
+            Helper.PhoneNumber(alt);
+            Helper.PhoneNumber(tube);
+            Helper.PhoneNumber(pager);
+            Helper.PhoneNumber(fax);
+
+
+
+            string newLine = name.Trim() + "," + Helper.PhoneNumber(phone) + "," + Helper.PhoneNumber(alt) + "," + Helper.PhoneNumber(pager) + "," + Helper.PhoneNumber(fax) + "," + tube;
+            string path = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData\\numberData.txt";
+            string addLine = newLine + Environment.NewLine;
+            File.AppendAllText(path, addLine);
+
+            Application.Restart();
+            
+            
+            
+            
         }
+
+        
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -59,5 +74,13 @@ namespace phoneTool
             
             
         }
+
+        private TForm getForm<TForm>()
+        where TForm : Form
+        {
+            return (TForm)Application.OpenForms.OfType<TForm>().FirstOrDefault();
+        }
+
+
     }
 }

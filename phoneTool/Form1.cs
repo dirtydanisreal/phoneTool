@@ -27,16 +27,18 @@ namespace phoneTool
             //Client.DownloadFile("https://phonenumberdata.s3.us-east-2.amazonaws.com/numberData.dat", "numberData.dat");
 
         
-            string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool");
-            string filePath = Path.Combine(dataPath, "numberData.csv");
+            //string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool");
+            //string filePath = Path.Combine(dataPath, "numberData.csv");
             string networkPath = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
-            string netPath = ConvertUNCPathToPhysicalPath(networkPath);
+            //string netPath = ConvertUNCPathToPhysicalPath(networkPath);
             string fileNetPath = Path.Combine(networkPath, "numberData.txt");
-            string appPath = Application.StartupPath;
-            string appTxt = Path.Combine(networkPath, "numberData.txt");
+            //string appPath = Application.StartupPath;
+            //string localPath = @"D:\GitHub\phoneTool\phoneTool\bin\Debug\numberData.txt";
+            //string appTxt = Path.Combine(networkPath, "numberData.txt");
+            
 
             //dataGridView1.DataSource = Helper.DataTableFromTextFile(fileNetPath);
-            dataGridView1.DataSource = Helper.DataTableFromTextFile(appTxt);
+            dataGridView1.DataSource = Helper.DataTableFromTextFile(fileNetPath);
 
            
             
@@ -51,7 +53,7 @@ namespace phoneTool
             txtSearch.Size = new System.Drawing.Size(500, 26);
             txtSearch.Text.Trim();
 
-            watchFile();
+            //watchFile();
             
 
             
@@ -210,8 +212,10 @@ namespace phoneTool
             return null;
         }
 
-        
-
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new Form2().Show();
+            
+        }
     }
 }
