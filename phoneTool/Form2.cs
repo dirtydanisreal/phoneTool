@@ -34,9 +34,13 @@ namespace phoneTool
             string fax = textBox5.Text;
             string tube = textBox6.Text;
 
-            
 
-            
+            Helper.RemoveChars(phone);
+            Helper.RemoveChars(alt);
+            Helper.RemoveChars(pager);
+            Helper.RemoveChars(fax);
+            Helper.RemoveChars(tube);
+
             Helper.PhoneNumber(phone);
             Helper.PhoneNumber(alt);
             Helper.PhoneNumber(tube);
@@ -44,8 +48,17 @@ namespace phoneTool
             Helper.PhoneNumber(fax);
 
 
+            if (Helper.IsOnlyNumbers(phone) || Helper.IsOnlyNumbers(alt) || Helper.IsOnlyNumbers(tube) || Helper.IsOnlyNumbers(pager) || Helper.IsOnlyNumbers(fax) == false)
+            {
+                MessageBox.Show("Please make sure you only input numbers only");
+                return;
+            }
+                    
+            
 
-            string newLine = name.Trim() + "," + Helper.PhoneNumber(phone) + "," + Helper.PhoneNumber(alt) + "," + Helper.PhoneNumber(pager) + "," + Helper.PhoneNumber(fax) + "," + tube;
+                string newLine = name.Trim() + "," + Helper.PhoneNumber(phone) + "," + Helper.PhoneNumber(alt) + "," + Helper.PhoneNumber(pager) + "," + Helper.PhoneNumber(fax) + "," + tube;
+            
+            
             string path = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData\\numberData.txt";
             string addLine = newLine + Environment.NewLine;
             File.AppendAllText(path, addLine);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Data;
 using System.Reflection;
+using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic;
 using System.Globalization;
@@ -167,10 +168,28 @@ namespace phoneTool
             return true;
         }
 
+        public static bool IsOnlyNumbers(string value)
+        {
+            return value.All(char.IsNumber);
+        }
+
+        
+        public static string RemoveChars(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in str)
+                if(c == '(' || c == ')' ||c == '-' || c == ' ')
+                    sb.Append(c);
+            return sb.ToString();
+        }
+    }
+
 
     }
+
+    
 
        
 
 
-}
+

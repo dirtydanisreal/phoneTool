@@ -12,6 +12,7 @@ using System.IO;
 using System.Net;
 using Microsoft.Win32;
 using System.Reflection;
+using Microsoft.Toolkit;
 
 
 namespace phoneTool
@@ -19,14 +20,14 @@ namespace phoneTool
     public partial class Form1 : Form
     {
 
-        
+
         public Form1()
         {
             InitializeComponent();
             //WebClient Client = new WebClient();
             //Client.DownloadFile("https://phonenumberdata.s3.us-east-2.amazonaws.com/numberData.dat", "numberData.dat");
 
-        
+
             //string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool");
             //string filePath = Path.Combine(dataPath, "numberData.csv");
             string networkPath = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
@@ -35,33 +36,41 @@ namespace phoneTool
             //string appPath = Application.StartupPath;
             //string localPath = @"D:\GitHub\phoneTool\phoneTool\bin\Debug\numberData.txt";
             //string appTxt = Path.Combine(networkPath, "numberData.txt");
-            
+
 
             //dataGridView1.DataSource = Helper.DataTableFromTextFile(fileNetPath);
             dataGridView1.DataSource = Helper.DataTableFromTextFile(fileNetPath);
-
-           
+            dataGridView1.CellContentDoubleClick += dataGridView1_CellContentClick;
             
+            
+
+
+
             dataGridView1.AutoSize = false;
             //foreach (DataGridViewColumn item in dataGridView1.Columns)
             //{
-             //   item.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //   item.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             //    item.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-           // }
-            
+            // }
+
             txtSearch.AutoSize = false;
             txtSearch.Size = new System.Drawing.Size(500, 26);
             txtSearch.Text.Trim();
 
             //watchFile();
-            
 
-            
 
-            
-            
-            
+
+
+
+
+
         }
+
+       
+
+        
+        
 
         public async void backgroundRefresh()
         {
@@ -111,7 +120,7 @@ namespace phoneTool
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            dataGridView1.BeginEdit(true);
         }
 
         private async void txtSearch_TextChanged(object sender, EventArgs e)

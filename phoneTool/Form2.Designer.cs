@@ -176,7 +176,8 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox1);
             this.Name = "Form2";
-            this.Text = "Phone Number Tool";
+            this.ShowIcon = false;
+            this.Text = "Add Number";
             this.ResumeLayout(false);
             this.PerformLayout();
 

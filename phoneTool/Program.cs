@@ -16,7 +16,7 @@ using System.Security.Permissions;
 using System.Security;
 using Microsoft.Win32;
 using System.Security.Cryptography;
-using AutoUpdate;
+
 
 namespace phoneTool
 {
@@ -35,9 +35,7 @@ namespace phoneTool
                 Helper.DeleteFile(Application.ExecutablePath + ":Zone.Identifier");
             }
             catch { }
-            Updater.GitHubRepo = "/dirtydanisreal/phoneTool";
-            if (Updater.AutoUpdate(args))
-                return;
+           
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //FileUnblocker fub = new FileUnblocker();
