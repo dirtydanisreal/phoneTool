@@ -32,7 +32,7 @@ namespace phoneTool
             //string filePath = Path.Combine(dataPath, "numberData.csv");
             string networkPath = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
             //string netPath = ConvertUNCPathToPhysicalPath(networkPath);
-            string fileNetPath = Path.Combine(networkPath, "numberData.txt");
+            string fileNetPath = Path.Combine(networkPath, "staffNumbers.txt");
             //string appPath = Application.StartupPath;
             //string localPath = @"D:\GitHub\phoneTool\phoneTool\bin\Debug\numberData.txt";
             //string appTxt = Path.Combine(networkPath, "numberData.txt");
@@ -81,7 +81,7 @@ namespace phoneTool
         public async void watchFile()
         {
             string networkPath = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
-            string appTxt = Path.Combine(networkPath, "numberData.txt");
+            string appTxt = Path.Combine(networkPath, "staffNumbers.txt");
             FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Path = appTxt;
             watcher.Filter = "*.txt";

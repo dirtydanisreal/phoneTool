@@ -29,37 +29,38 @@ namespace phoneTool
             Form f = Application.OpenForms[0];
             string name = textBox1.Text;
             string phone = textBox2.Text;
-            string alt = textBox3.Text;
-            string pager = textBox4.Text;
-            string fax = textBox5.Text;
-            string tube = textBox6.Text;
+            //string alt = textBox3.Text;
+            //string pager = textBox4.Text;
+            //string fax = textBox5.Text;
+            //string tube = textBox6.Text;
 
 
             Helper.RemoveChars(phone);
-            Helper.RemoveChars(alt);
-            Helper.RemoveChars(pager);
-            Helper.RemoveChars(fax);
-            Helper.RemoveChars(tube);
+            //Helper.RemoveChars(alt);
+            //Helper.RemoveChars(pager);
+            //Helper.RemoveChars(fax);
+            //Helper.RemoveChars(tube);
 
             Helper.PhoneNumber(phone);
-            Helper.PhoneNumber(alt);
-            Helper.PhoneNumber(tube);
-            Helper.PhoneNumber(pager);
-            Helper.PhoneNumber(fax);
+            //Helper.PhoneNumber(alt);
+            //Helper.PhoneNumber(tube);
+            //Helper.PhoneNumber(pager);
+            //Helper.PhoneNumber(fax);
 
 
             //if (Helper.IsOnlyNumbers(phone) || Helper.IsOnlyNumbers(alt) || Helper.IsOnlyNumbers(tube) || Helper.IsOnlyNumbers(pager) || Helper.IsOnlyNumbers(fax) == false)
             //{
-                //MessageBox.Show("Please make sure you only input numbers only");
-                //return;
+            //MessageBox.Show("Please make sure you only input numbers only");
+            //return;
             //}
-                    
-            
 
-                string newLine = name.Trim() + "," + Helper.PhoneNumber(phone) + "," + Helper.PhoneNumber(alt) + "," + Helper.PhoneNumber(pager) + "," + Helper.PhoneNumber(fax) + "," + tube;
-            
-            
-            string path = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData\\numberData.txt";
+
+
+            string newLine = name.Trim() + "," + Helper.PhoneNumber(phone);
+
+
+            //string path = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData\\numberData.txt";
+            string path = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData\\staffNumbers.txt";
             string addLine = newLine + Environment.NewLine;
             File.AppendAllText(path, addLine);
 

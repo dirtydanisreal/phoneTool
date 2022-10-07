@@ -128,7 +128,7 @@ namespace phoneTool
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
-            this.Text = "phoneTool";
+            this.Text = "phoneTool Staff Edition®";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
