@@ -24,21 +24,11 @@ namespace phoneTool
         public Form1()
         {
             InitializeComponent();
-            //WebClient Client = new WebClient();
-            //Client.DownloadFile("https://phonenumberdata.s3.us-east-2.amazonaws.com/numberData.dat", "numberData.dat");
 
-
-            //string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData\\Local\\phoneTool");
-            //string filePath = Path.Combine(dataPath, "numberData.csv");
             string networkPath = @"\\ukhcdata\\dept\\Trauma Services\\Trauma Surgical Clerks\\numberData";
-            //string netPath = ConvertUNCPathToPhysicalPath(networkPath);
+            
             string fileNetPath = Path.Combine(networkPath, "numberData.txt");
-            //string appPath = Application.StartupPath;
-            //string localPath = @"D:\GitHub\phoneTool\phoneTool\bin\Debug\numberData.txt";
-            //string appTxt = Path.Combine(networkPath, "numberData.txt");
-
-
-            //dataGridView1.DataSource = Helper.DataTableFromTextFile(fileNetPath);
+            
             dataGridView1.DataSource = Helper.DataTableFromTextFile(fileNetPath);
             dataGridView1.CellContentDoubleClick += dataGridView1_CellContentClick;
             
@@ -57,7 +47,7 @@ namespace phoneTool
             txtSearch.Size = new System.Drawing.Size(500, 26);
             txtSearch.Text.Trim();
 
-            //watchFile();
+        
 
 
 
@@ -91,31 +81,10 @@ namespace phoneTool
             watcher.Changed += new FileSystemEventHandler(onChange);
         }
 
-        void onChange(object sender, FileSystemEventArgs e)
-        {
-            backgroundRefresh();
-        }
-
-        private async Task updateDataGrid()
-        {
-            (dataGridView1.DataSource as DataGridView).Refresh();
-        }
+        
         
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-            
-            
-            
-
-            
-            
-            
-
-
-        }
-
+        
         
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
